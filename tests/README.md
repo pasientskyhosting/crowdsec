@@ -73,7 +73,7 @@ bats-core and will only be shown if the test fails. If you want to always print
 something to debug your test case, you can redirect the output to the file
 descriptor 3:
 
-```
+```sh
 @test "mytest" {
    echo "hello world!" >&3
    run some-command
@@ -116,7 +116,7 @@ executed multiple times, so we have to be careful of what we put there.
 
 Here we have a look at the execution flow with two tests:
 
-```
+```sh
 echo "begin" >&3
 
 setup_file() {
@@ -226,13 +226,13 @@ Here are some ways to use the two scripts.
    the tests that need it, possibly after altering the configuration
    (02_nolapi, 03_noagent, 04_nocapi, 40_live-ban)
 
-    This is useful because: 1) you sometimes don't want crowdsec to run, for
-    example when testing `cscli`, and if you need to, it allows you to tweak the
-    configuration inside the test function before running `crowdsec`. See how we
-    use `yq` to change the YAML files to that effect.
+    This is useful because: 1) you sometimes don't want crowdsec to run at all,
+    for example when testing `cscli` in isolation, or you may want to tweak the
+    configuration inside the test function before running the lapi/agent. See
+    how we use `yq` to change the YAML files to that effect.
 
- - case 3: run crowdsec with the same set of configuration+data once, for all
-   the tests (50_simulation, 98_ipv4, 98_ipv6)
+ - case 3: start crowdsec with the inital set of configuration+data once, and keep it
+   running for all the tests (50_simulation, 98_ipv4, 98_ipv6)
 
      This offers no isolation across tests, which over time could break more
      often as result, but you can rely on the test order to test more complex
