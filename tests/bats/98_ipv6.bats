@@ -162,7 +162,7 @@ docurl() {
     assert_output --partial 'Decision successfully added'
 }
 
-@test "$FILE / deleting decision for ip 1111:2222:3333:4444:5555:6666:7777:8889" {
+@test "$FILE deleting decision for ip 1111:2222:3333:4444:5555:6666:7777:8889" {
     run "${CSCLI}" decisions delete -i '1111:2222:3333:4444:5555:6666:7777:8889'
     assert_success
     assert_output --partial '1 decision(s) deleted'
