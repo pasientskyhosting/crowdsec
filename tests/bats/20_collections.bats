@@ -38,6 +38,7 @@ teardown() {
     [[ $(echo "$output" | jq '.collections | length') -eq 2 ]]
 }
 
+#XXX
 # @test "$FILE cannot install a collection as regular user" {
 #   # XXX -o human returns two items, -o json and -o raw return only errors
 #   run --separate-stderr cscli collections install crowdsecurity/mysql -o json
@@ -65,6 +66,7 @@ teardown() {
     assert_output --partial "Removed symlink [crowdsecurity/mysql]"
 }
 
+#XXX
 #@test "$FILE cannot remove a collection as regular user" {
 #  run --separate-stderr cscli collections remove crowdsecurity/mysql -o json
 #  [ $status -eq 1 ]

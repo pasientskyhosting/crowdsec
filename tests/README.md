@@ -62,11 +62,12 @@ To repeat test runs without rebuilding crowdsec, use `make bats-test`.
 
 # How does it work?
 
-In BATS, you write tests in the form of Bash functions that have names. You can
-do most things that you can normally do in a shell function. If there is any
-error condition, the test fails. A set of functions is provided to implement
-assertions, and a mechanism of `setup`/`teardown` is provided a the level of
-individual tests (functions) or group of tests (files).
+In BATS, you write tests in the form of Bash functions that have unique
+descriptions (the name of the test). You can do most things that you can
+normally do in a shell function. If there is any error condition, the test
+fails. A set of functions is provided to implement assertions, and a mechanism
+of `setup`/`teardown` is provided a the level of individual tests (functions)
+or group of tests (files).
 
 The stdout/stderr of the commands within the test function are captured by
 bats-core and will only be shown if the test fails. If you want to always print
@@ -239,9 +240,26 @@ Here are some ways to use the two scripts.
      scenarios with a reasonable performance and the least amount of code.
 
 
-## stdout and stderr
+## status, stdout and stderr
 
-XXX TODO
+As we said, if any error occurs in a test function ($? is not 0), the test
+fails immediately. To check for error condition on `mycommand`, use `run
+mycommand`. Each time `run` is called, the error status is stored in the
+`$status` variable, and the command output and standard error content are put
+together in the `$output` variable. By specifying `run --separate-stderr`, you
+can have separated `$output` and `$stderr` variables.
+
+The `$output` variable gets special treatment with the
+[bats-support](https://github.com/bats-core/bats-support) and
+[bats-assert][https://github.com/bats-core/bats-assert) plugin and can be
+checked with `assert_*` commands, while for `$stderr` you have to rely on the
+usual string operators provided by bash.
+
+## file operations
+
+We included the [bats-file](https://github.com/bats-core/bats-file) plugin to
+check the result of file system operations: existence, type/size/ownership checks
+on files, symlinks, directories, sockets.
 
 
 # How to contribute
