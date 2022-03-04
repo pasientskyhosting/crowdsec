@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -eu
 
@@ -51,8 +51,11 @@ start_instance() {
 
 stop_instance() {
     if [ -f "${DAEMON_PID}" ]; then
-        # terminate with extreme prejudice, all the application data will be thrown away anyway
-        kill -9 "$(cat "${DAEMON_PID}")" && rm "${DAEMON_PID}" "${DAEMON_LOCK}"
+       # terminate quickly with extreme prejudice, all the application data will be
+       # thrown away anyway. also terminate the child processes (notification plugin).
+       PGID="$(ps --no-headers -p "$(cat "${DAEMON_PID}")" -o pgid)"
+       kill -9 -- "-${PGID}"
+       rm -f -- "${DAEMON_PID}" "${DAEMON_LOCK}"
     fi
 }
 
@@ -65,9 +68,9 @@ case "$1" in
     start)
         start_instance
         ;;
-    start-nowait)
-        start_instance_nowait
-        ;;
+#    start-nowait)
+#        start_instance_nowait
+#        ;;
     stop)
         stop_instance
         ;;

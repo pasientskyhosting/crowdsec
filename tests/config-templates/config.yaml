@@ -12,7 +12,7 @@ config_paths:
   hub_dir: ${CONFIG_DIR}/hub/
   index_path: ${CONFIG_DIR}/hub/.index.json
   notification_dir: ${CONFIG_DIR}/notifications/
-  plugin_dir: /usr/local/lib/crowdsec/plugins/
+  plugin_dir: ${PLUGIN_DIR}
 crowdsec_service:
   acquisition_path: ${CONFIG_DIR}/acquis.yaml
   parser_routines: 1

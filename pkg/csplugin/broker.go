@@ -253,11 +253,13 @@ func (pb *PluginBroker) loadNotificationPlugin(name string, binaryPath string) (
 		return nil, err
 	}
 	cmd := exec.Command(binaryPath)
-	cmd.SysProcAttr, err = getProcessAtr(pb.pluginProcConfig.User, pb.pluginProcConfig.Group)
-	if err != nil {
-		return nil, errors.Wrap(err, "while getting process attributes")
+	if pb.pluginProcConfig.User != "" || pb.pluginProcConfig.Group != "" {
+		cmd.SysProcAttr, err = getProcessAtr(pb.pluginProcConfig.User, pb.pluginProcConfig.Group)
+		if err != nil {
+			return nil, errors.Wrap(err, "while getting process attributes")
+		}
+		cmd.SysProcAttr.Credential.NoSetGroups = true
 	}
-	cmd.SysProcAttr.Credential.NoSetGroups = true
 	pb.pluginMap[name] = &NotifierPlugin{}
 	l := log.New()
 	err = types.ConfigureLogger(l)
